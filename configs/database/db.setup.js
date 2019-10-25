@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose
-	.connect("mongodb://localhost/ptwd-server", {
+	.connect("mongodb://localhost/timeline-server", {
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 		useCreateIndex: true

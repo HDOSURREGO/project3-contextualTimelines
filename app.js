@@ -73,4 +73,8 @@ app.use("/", index);
 const authRoutes = require("./routes/auth.routes");
 app.use("/", authRoutes);
 
+app.use("/", require("./routes/event-routes"));
+
+// app.use("/", require("./routes/timeline-routes"));
+
 module.exports = app;
