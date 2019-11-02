@@ -12,6 +12,7 @@ const eventSchema = new Schema(
 		eventDate: {
 			type: Date,
 			required: true,
+			default: 01 / 01 / 1900,
 			minlength: 2
 		},
 		description: {

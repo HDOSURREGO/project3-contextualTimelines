@@ -23,7 +23,9 @@ router.post("/event/create", (req, res, next) => {
 // GET route to display all the events
 router.get("/events", (req, res, next) => {
 	Event.find()
-		.then(eventsFromDB => res.send(`You have ${eventsFromDB} in the MongoDB`))
+		.then(eventsFromDB =>
+			res.send(`You have these events in the Database: ${eventsFromDB} `)
+		)
 		.catch(err => console.log("error while getting all the events: ", err));
 });
 
