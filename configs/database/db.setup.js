@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose
-	.connect("mongodb://localhost/timeline-server", {
+	.connect(process.env.MONGODB_URI, {
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 		useCreateIndex: true
