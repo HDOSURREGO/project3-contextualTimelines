@@ -87,6 +87,7 @@ authRouter.post("/login", (req, res, next) => {
 
 authRouter.delete("/logout", (req, res, next) => {
 	// "req.logout()" is a Passport method that removes the user ID from session
+	// console.log("the user on logout >>>> ", req.user);
 	req.logout();
 	// send empty "userDoc" when you log out
 	res.json({ userDoc: null });
