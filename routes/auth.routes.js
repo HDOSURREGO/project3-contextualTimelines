@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 
 const passport = require("passport");
 
-authRouter.post("/api/signup", (req, res, next) => {
+authRouter.post("/signup", (req, res, next) => {
 	console.log("frontend form data: ", req.body);
 	const { firstName, lastName, email, password } = req.body;
 
@@ -61,7 +61,7 @@ authRouter.post("/api/signup", (req, res, next) => {
 		.catch(err => next(err)); // close User.findOne()
 });
 
-authRouter.post("/api/login", (req, res, next) => {
+authRouter.post("/login", (req, res, next) => {
 	passport.authenticate("local", (err, userDoc, failureDetails) => {
 		if (err) {
 			res.status(500).json({ message: "Something went wrong with login." });
@@ -85,7 +85,7 @@ authRouter.post("/api/login", (req, res, next) => {
 	})(req, res, next);
 });
 
-authRouter.delete("/api/logout", (req, res, next) => {
+authRouter.delete("/logout", (req, res, next) => {
 	// "req.logout()" is a Passport method that removes the user ID from session
 	req.logout();
 	// send empty "userDoc" when you log out
@@ -94,7 +94,7 @@ authRouter.delete("/api/logout", (req, res, next) => {
 
 // check if user is logged in and if we are logged in what are user's details
 // this is the information that is useful for the frontend application
-authRouter.get("/api/checkuser", (req, res, next) => {
+authRouter.get("/checkuser", (req, res, next) => {
 	// console.log("do i have user: ", req.user);
 	if (req.user) {
 		req.user.encryptedPassword = undefined;
