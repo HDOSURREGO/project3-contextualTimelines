@@ -57,7 +57,8 @@ router.post("/timeline/addEvent/:timelineId", (req, res, next) => {
 			timelineFromDb
 				.save()
 				.then(updatedTimeline => {
-					res.status(200).json(updatedTimeline);
+					// res.status(200).json(updatedTimeline);
+					Event.create;
 				})
 				.catch(err => res.status(400).json(err));
 		})
