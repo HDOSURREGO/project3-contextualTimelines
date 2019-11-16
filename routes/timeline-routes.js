@@ -24,7 +24,7 @@ const Event = require("../models/Event");
 router.post("/timeline/create", (req, res, next) => {
 	console.log("THE TIMELINE: ", req.body);
 	Timeline.create({
-		name: req.body.name,
+		timelineName: req.body.timelineName,
 		events: []
 	})
 		.then(response => {
@@ -36,8 +36,16 @@ router.post("/timeline/create", (req, res, next) => {
 });
 
 // ****************************************************************************************
+router.get("/timelines", (req, res, next) => {
+	Timeline.find()
+		.then(timelinesFromDB => {
+			console.log("the timelines >>>>>> ", timelinesFromDB);
+			res.status(200).json(timelinesFromDB);
+		})
+		.catch(err => console.log("error while getting all the timelines: ", err));
+});
 
-// GET all authors from the DB
+// GET all events for the timeline
 router.get("/timelines/:timelineId", (req, res, next) => {
 	Timeline.find()
 		.populate("events")
