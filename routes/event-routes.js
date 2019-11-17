@@ -7,18 +7,31 @@ const Event = require("../models/Event");
 // ****************************************************************************************
 
 // POST - create an event
-// <form action="/event/create" method="post">
-router.post("/event/create", (req, res, next) => {
-	// console.log('The data from the form: ', req.body);
+router.post("/event/create/:timelineId", (req, res, next) => {
+	console.log("The data from the form Create Event: ", req.body);
 	// the "value" from option gets saved inside req.body object
 	Event.create(req.body)
 		.then(response => {
+			console.log(response);
+			attachedEvent2Timeline(req.params.timelineId, response._id);
 			res.json(response);
 		})
 		.catch(err => {
 			res.json(err);
 		});
 });
+
+attachedEvent2Timeline = (timelineId, eventId) => {
+	Timeline.findById(timelineId)
+		.populate("events")
+		.then(timelineFromDb => {
+			timelineFromDb.events.push(eventId);
+			timelineFromDb.save().then(updatedTimeline => {
+				console.log(updatedTimeline);
+				// Event.create;
+			});
+		});
+};
 
 // GET route to display all the events
 router.get("/events", (req, res, next) => {
