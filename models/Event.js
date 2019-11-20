@@ -23,6 +23,10 @@ const eventSchema = new Schema(
 		eventLinks: {
 			type: Array,
 			required: false
+		},
+		parentId: {
+			type: Schema.Types.ObjectId,
+			ref: "Timeline"
 		}
 	},
 

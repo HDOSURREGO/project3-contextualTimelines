@@ -13,25 +13,37 @@ router.post("/event/create/:timelineId", (req, res, next) => {
 	Event.create(req.body)
 		.then(response => {
 			console.log(response);
-			attachedEvent2Timeline(req.params.timelineId, response._id);
-			res.json(response);
+			// attachedEvent2Timeline(req.params.timelineId, response._id);
+			Timeline.findById(req.params.timelineId)
+				.populate("events")
+				.then(timelineFromDb => {
+					console.log("the timeline from db ============== ", timelineFromDb);
+					timelineFromDb.events.push(response._id);
+					timelineFromDb
+						.save()
+						.then(updatedTimeline => {
+							Timeline.populate(updatedTimeline, { path: "events" })
+								.then(theTimeline => {
+									console.log("+++++++++++++++++++++++", theTimeline);
+									// Event.create;
+									res.json(theTimeline);
+								})
+								.catch(err => res.status(400).json(err));
+						})
+						.catch(err => {
+							res.status(400).json(err);
+						});
+				})
+				.catch(err => {
+					res.status(400).json(err);
+				});
 		})
 		.catch(err => {
 			res.json(err);
 		});
 });
 
-attachedEvent2Timeline = (timelineId, eventId) => {
-	Timeline.findById(timelineId)
-		.populate("events")
-		.then(timelineFromDb => {
-			timelineFromDb.events.push(eventId);
-			timelineFromDb.save().then(updatedTimeline => {
-				console.log(updatedTimeline);
-				// Event.create;
-			});
-		});
-};
+// attachedEvent2Timeline = (timelineId, eventId) => {};
 
 // GET route to display all the events
 router.get("/events", (req, res, next) => {
@@ -45,8 +57,7 @@ router.get("/events", (req, res, next) => {
 // **************************************   **************************************************
 
 // POST route to delete the event
-// action="/events/{{this._id}}/delete"
-router.delete("/events/delete/:eventId", (req, res, next) => {
+router.post("/events/:eventId/delete", (req, res, next) => {
 	Event.findByIdAndDelete(req.params.eventId)
 		.then(() => {
 			res.json({
@@ -81,25 +92,11 @@ router.post("/events/:eventId/update", (req, res, next) => {
 // ****************************************************************************************
 
 // GET route => to retrieve a specific event
-router.get("/timelines/events/:eventId", (req, res, next) => {
-	console.log("req.params.eventId");
-	console.log(req.params.eventId);
+router.get("/timeline/event/:eventId", (req, res, next) => {
 	Event.findById(req.params.eventId)
 		.then(theEvent => {
-			Timeline.findById(theEvent.parentId).then(theTimeLine => {
-				console.log("theEvent");
-				console.log(theEvent);
-				const response = {
-					parentId: theEvent.parentId,
-					eventTitle: theEvent.eventTitle,
-					eventDescription: theEvent.eventDescription,
-					eventDate: theEvent.eventDate,
-					parentName: theTimeLine.timelineName
-				};
-				console.log("theTimeLine");
-				console.log(response);
-				res.json(response);
-			});
+			console.log("this is the event details ----- ", theEvent);
+			res.json(theEvent);
 		})
 		.catch(err => {
 			res.json(err);
