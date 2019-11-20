@@ -63,4 +63,22 @@ router.post("/timeline/addEvent/:timelineId", (req, res, next) => {
 		.catch(err => res.status(400).json(err));
 });
 
+// DELETE route => to delete a specific project
+router.delete("/timeline/delete/:id", (req, res, next) => {
+	// if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+	// 	res.status(400).json({ message: "Specified id is not valid" });
+	// 	return;
+	// }
+	console.log("Deleting timeline...with id:", req.params.id);
+	Timeline.findByIdAndRemove(req.params.id)
+		.then(() => {
+			res.json({
+				message: `Timeline with ${req.params.id} is removed successfully.`
+			});
+		})
+		.catch(err => {
+			res.json(err);
+		});
+});
+
 module.exports = router;
