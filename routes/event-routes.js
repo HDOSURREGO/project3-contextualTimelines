@@ -94,7 +94,8 @@ router.get("/timelines/events/:eventId", (req, res, next) => {
 					eventTitle: theEvent.eventTitle,
 					eventDescription: theEvent.eventDescription,
 					eventDate: theEvent.eventDate,
-					parentName: theTimeLine.timelineName
+					parentName: theTimeLine.timelineName,
+					eventLinks: theEvent.eventLinks
 				};
 				console.log("theTimeLine");
 				console.log(response);
