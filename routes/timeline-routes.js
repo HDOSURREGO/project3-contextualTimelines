@@ -26,6 +26,7 @@ router.post("/timeline/create", (req, res, next) => {
 // ****************************************************************************************
 router.get("/timelines", (req, res, next) => {
 	Timeline.find()
+		.populate("events")
 		.then(timelinesFromDB => {
 			console.log("the timelines >>>>>> ", timelinesFromDB);
 			res.status(200).json(timelinesFromDB);
