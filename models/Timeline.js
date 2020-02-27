@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const timelineSchema = new Schema(
 	{
-		name: {
+		timelineName: {
 			type: String,
 			required: true,
 			minlength: 2
